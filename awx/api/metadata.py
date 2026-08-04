@@ -177,9 +177,12 @@ class Metadata(metadata.SimpleMetadata):
         ):
             field_info['type'] = 'list_of_ids'
         elif isinstance(model_field, BooleanField):
-            field_info['type'] = 'boolean'
+                    field_info['type'] = 'boolean'
 
-        return field_info
+        from ansible_base.lib.metadata import inject_clean_text_patterns
+
+        return inject_clean_text_patterns(field, field_info)
+
 
     def get_serializer_info(self, serializer, method=None):
         filterer = getattr(serializer, 'filter_field_metadata', lambda fields, method: fields)
