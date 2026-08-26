@@ -27,6 +27,9 @@ from awx.main.fields import ImplicitRoleField
 from awx.main.models import NotificationTemplate
 from awx.main.utils.execution_environments import get_default_pod_spec
 
+# django-ansible-base
+from ansible_base.lib.metadata import inject_clean_text_patterns
+
 # Polymorphic
 from polymorphic.models import PolymorphicModel
 
@@ -178,6 +181,8 @@ class Metadata(metadata.SimpleMetadata):
             field_info['type'] = 'list_of_ids'
         elif isinstance(model_field, BooleanField):
             field_info['type'] = 'boolean'
+
+        field_info = inject_clean_text_patterns(field, field_info)
 
         return field_info
 
